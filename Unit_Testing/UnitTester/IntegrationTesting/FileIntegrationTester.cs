@@ -28,12 +28,11 @@ namespace UnitTester.IntegrationTesting
         public void EmployeeImportFile1_FileExists_SuccessTest()
         {
             //Arrange
-            var path = @"C:\Users\ghazanfer.khan\Desktop\first file.csv";
-            var actual = true;
+            var path = @"C:\Users\ghazanfer.khan\Desktop\first file.csv";           
             //Act
             var expected = _FileValidation.Exists(path);
             //Assert
-            Assert.AreEqual(expected, actual);
+            Assert.IsTrue(expected);
         }
 
         [TestMethod]
@@ -54,12 +53,11 @@ namespace UnitTester.IntegrationTesting
         public void EmployeeImportFile2_FileExists_SuccessTest()
         {
             //Arrange
-            var path = @"C:\Users\ghazanfer.khan\Desktop\second file.csv";
-            var actual = true;
+            var path = @"C:\Users\ghazanfer.khan\Desktop\second file.csv";            
             //Act
             var expected = _FileValidation.Exists(path);
             //Assert
-            Assert.AreEqual(expected, actual);
+            Assert.IsTrue(expected);
         }
 
         [TestMethod]
@@ -67,12 +65,11 @@ namespace UnitTester.IntegrationTesting
         public void EmployeeImportFile2_FileExists_FailTest()
         {
             //Arrange
-            var path = @"C:\Users\ghazanfer.khan\Desktop\second.csv";
-            var actual = true;
+            var path = @"C:\Users\ghazanfer.khan\Desktop\second.csv";            
             //Act
             var expected = _FileValidation.Exists(path);
             //Assert
-            Assert.AreEqual(expected, actual, "File not exist");
+            Assert.IsTrue(expected);
         }
 
         [TestMethod]
@@ -80,12 +77,11 @@ namespace UnitTester.IntegrationTesting
         public void EmployeeImportFile3_FileExists_SuccessTest()
         {
             //Arrange
-            var path = @"C:\Users\ghazanfer.khan\Desktop\third file.csv";
-            var actual = true;
+            var path = @"C:\Users\ghazanfer.khan\Desktop\third file.csv";            
             //Act
             var expected = _FileValidation.Exists(path);
             //Assert
-            Assert.AreEqual(expected, actual);
+            Assert.IsTrue(expected);
         }
 
         [TestMethod]
@@ -93,12 +89,11 @@ namespace UnitTester.IntegrationTesting
         public void EmployeeImportFile3_FileExists_FailTest()
         {
             //Arrange
-            var path = @"C:\Users\ghazanfer.khan\Desktop\third.csv";
-            var actual = true;
+            var path = @"C:\Users\ghazanfer.khan\Desktop\third.csv";            
             //Act
             var expected = _FileValidation.Exists(path);
             //Assert
-            Assert.AreEqual(expected, actual, "File not exist");
+            Assert.IsTrue(expected);
         }
 
         #endregion
@@ -107,6 +102,7 @@ namespace UnitTester.IntegrationTesting
         #region File Header Checking Test cases
 
         [TestMethod]
+        [TestCategory("File Header Testing")]
         public void EmployeeImportFile_HeaderExist_SuccessTest()
         {
             IReadCSV readCSV = new CSVHelper();
@@ -117,6 +113,7 @@ namespace UnitTester.IntegrationTesting
 
         [TestMethod]
         [CustomExpectedException(typeof(Exception))]
+        [TestCategory("File Header Testing")]
         public void EmployeeImportFile_HeaderExist_Exception()
         {
             IReadCSV readCSV = new CSVHelper();
@@ -124,17 +121,11 @@ namespace UnitTester.IntegrationTesting
         }
         #endregion
 
-        [TestMethod]        
-        public void EmployeeImportFile_DataFormation_Datatable()
-        {
-            IReadCSV readCSV = new CSVHelper();
-            var actual = readCSV.ExtractCSVData(@"D:\Hackathon\instructions_to_start_the_hackathon_coding\third file.csv", IntegrationMockProvider.MockHeaders());
-        }
-
-
+      
         #region Final Integration
 
         [TestMethod]
+        [TestCategory("Singleton Code Burndown")]
         public void EmployeeWholeIntegration_ReadingValidationProcessingWriting_ReturnTrueSuccess()
         {
             IEmployeeHourCalculator employeeHourCalculator = new EmployeeHourCalculator(new FileValidation(), new CSVHelper(), new CSVHelper(), new EmployeeDataProcessor());
