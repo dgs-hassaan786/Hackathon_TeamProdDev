@@ -51,34 +51,39 @@ namespace BLL.Helper
             
             return status;
         }
+       
+
+        public bool CheckHeader(string path,  string[] headers)
+        {            
+            using (TextFieldParser csvReader = new TextFieldParser(path))
+            {
+                csvReader.SetDelimiters(new string[] { "," });
+                csvReader.HasFieldsEnclosedInQuotes = true;
+
+                string[] colFields = csvReader.ReadFields();
+
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    var status = false;
+                    for (int j = 0; j < colFields.Length; j++)
+                    {
+                        if(colFields[j]== headers[i])
+                        {
+                            status = true;
+                            break;
+                        }
+                    }
+
+                    if (!status)
+                        throw new Exception($"File header {headers[i]} not found");
+                }
+                               
+            }
+
+            return true;
+        }
 
 
-        //public Task Read(string path, IEnumerable<Employee> employee)
-        //{
-        //    bool IsHeader = true;
-        //    DataTable dt = new DataTable();
-        //    List<string[]> parsedData = new List<string[]>();
-        //    using (var parser = new TextFieldParser(path))
-        //    {
-        //        parser.HasFieldsEnclosedInQuotes = true;
-        //        parser.SetDelimiters(",");
-        //        parser.TrimWhiteSpace = true;
-        //        parser.TextFieldType = FieldType.Delimited;
-        //        while (!parser.EndOfData)
-        //        {
-        //            // get the column headers
-        //            if (IsHeader)
-        //            {
-        //                IsHeader = false;
-        //                continue;
-        //            }
-        //            //Processing row
-        //            string[] fields = parser.ReadFields();
-        //            parsedData.Add(fields);
-        //        }
-        //    }
-        //    return Task.FromResult(0);
-        //}
         public static DataTable ParseCSVFile(string path)
         {
             DataTable csvData = new DataTable();
@@ -88,29 +93,29 @@ namespace BLL.Helper
                 {
                     csvReader.SetDelimiters(new string[] { "," });
                     csvReader.HasFieldsEnclosedInQuotes = true;
-                    //read column names from the first row
+                    
                     string[] colFields = csvReader.ReadFields();
-                    //iterate each column to create the DataColumn for the DataTable structure
+                    
                     foreach (string column in colFields)
                     {
                         DataColumn datcolumn = new DataColumn(column);
                         datcolumn.AllowDBNull = true;
                         csvData.Columns.Add(datcolumn);
-                    }//end foreach
-                     //now on to the data
+                    }
+                     
                     while (!csvReader.EndOfData)
                     {
                         string[] fieldData = csvReader.ReadFields();
-                        //Making empty value as null
+                        
                         for (int i = 0; i < fieldData.Length; i++)
                         {
                             if (fieldData[i] == "")
                                 fieldData[i] = null;
-                        }//end for
-                         //add the DataRow
+                        }
+                         
                         csvData.Rows.Add(fieldData);
-                    }//end while
-                }//end using
+                    }
+                }
             }
             catch (Exception ex)
             {
