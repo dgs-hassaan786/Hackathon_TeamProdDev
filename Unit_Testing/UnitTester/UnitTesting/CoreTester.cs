@@ -30,7 +30,7 @@ namespace UnitTester.UnitTesting
 
         [TestMethod]
         // [ExpectedException(typeof(IndexOutOfRangeException))]//,"paratemer: a[] is null"
-        [MyExpectedException(typeof(IndexOutOfRangeException))]
+        [CustomExpectedException(typeof(IndexOutOfRangeException))]
         public void ArrayElementSumUp_ZeroElement_IndexOutOfRangeException()
         {
 

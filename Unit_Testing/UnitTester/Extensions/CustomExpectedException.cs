@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace UnitTester.Extensions
 {
-    public sealed class MyExpectedException : ExpectedExceptionBaseAttribute
+    public sealed class CustomExpectedException : ExpectedExceptionBaseAttribute
     {
         private Type _expectedExceptionType;
         private string _expectedExceptionMessage;
         private Logger _logger;
 
-        public MyExpectedException(Type expectedExceptionType)
+        public CustomExpectedException(Type expectedExceptionType)
         {
             _expectedExceptionType = expectedExceptionType;
             _expectedExceptionMessage = string.Empty;
         }
 
-        public MyExpectedException(Type expectedExceptionType, string expectedExceptionMessage)
+        public CustomExpectedException(Type expectedExceptionType, string expectedExceptionMessage)
         {
             _expectedExceptionType = expectedExceptionType;
             _expectedExceptionMessage = expectedExceptionMessage;
