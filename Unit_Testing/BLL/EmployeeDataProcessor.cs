@@ -11,20 +11,38 @@ namespace BLL
 
     public interface IEmployeeDataProcessor
     {
+        List<Employee> FormattingData(DataTable table);
+        DataTable MergeDataSource(List<DataTable> dataSources);
         List<Employee> ProcessData(List<Employee> unproccessedEmployeeList);
-    }
+    }    
 
     public class EmployeeDataProcessor : IEmployeeDataProcessor
     {
 
-        public DataTable MergeDataSource(DataTable dataSource1, DataTable dataSource2, DataTable dataSource3)
+        public DataTable MergeDataSource(List<DataTable> dataSources)
         {
             DataTable table = new DataTable("TblEmployee");
-            table.Merge(dataSource1);
-            table.Merge(dataSource2);
-            table.Merge(dataSource3);
+            foreach (var dt in dataSources)
+            {
+                table.Merge(dt);
+                table.Merge(dt);
+                table.Merge(dt);
+            }
 
-            return table;
+            try
+            {
+                var dt = table.Rows.Cast<DataRow>().Where(row => !row.ItemArray.All(field => field is System.DBNull || string.Compare((field as string).Trim(), string.Empty) == 0)).CopyToDataTable();
+                var UniqueRows = dt.AsEnumerable().Distinct(DataRowComparer.Default);
+                DataTable dt2 = UniqueRows.CopyToDataTable();
+                return dt2;
+
+            }
+            catch (Exception)
+            {
+
+                return table;
+            }
+            
         }
 
         public List<Employee> FormattingData(DataTable table)
@@ -40,7 +58,6 @@ namespace BLL
 
             return employees;
         }
-
 
         public List<Employee> ProcessData(List<Employee> unproccessedEmployeeList)
         {
