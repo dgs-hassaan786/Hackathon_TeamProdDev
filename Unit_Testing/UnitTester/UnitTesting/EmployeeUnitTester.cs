@@ -19,11 +19,9 @@ namespace UnitTester.UnitTesting
         {
 
             IEmployeeDataProcessor employeeDataProcessor = new EmployeeDataProcessor();
-
             var actual = EmployeeMock.ResultantProcessedData().ToList().OrderBy(x=>x.EmployeeId).ToList();
-            var expected = employeeDataProcessor.ProcessData(EmployeeMock.GetMockEmployeeUnprocessedData().ToList()).OrderBy(x=>x.EmployeeId).ToList() ;
-
-            CollectionAssert.AreEqual(expected, actual);
+            var expected = employeeDataProcessor.ProcessData(EmployeeMock.GetMockEmployeeUnprocessedData().ToList()).OrderBy(x=>x.EmployeeId).ToList();
+            CollectionAssert.AreEqual(expected, actual,new EmployeeComparer());
 
 
         }
@@ -95,6 +93,15 @@ namespace UnitTester.UnitTesting
             lst.Add(new Employee("555", "Azfar Akram", 186));
             lst.Add(new Employee("666", "Shafqat Mahmood", 291));
             return lst;
+        }
+    }
+    public class EmployeeComparer : Comparer<Employee>
+    {
+        public override int Compare(Employee x, Employee y)
+        {
+            // compare the two mountains
+            // for the purpose of this tests they are considered equal when their identifiers (hours worked) match
+            return x.HoursWorked.CompareTo(y.HoursWorked);
         }
     }
 }
