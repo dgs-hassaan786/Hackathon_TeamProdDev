@@ -14,12 +14,11 @@ namespace UnitTester.IntegrationTesting
         #region File Exist and validation 
 
         [TestMethod]
-        [TestCategory("File Validation")]
+        [TestCategory("File Integration | Validation")]
         public void EmployeeImportFile1_FileExists_SuccessTest()
         {
             //Arrange
-            var path = Paths.File1;
-            var actual = true;
+            var path = Paths.File1;            
             //Act
             _FileValidationProvider = new FileValidationProvider();
             var expected = _FileValidationProvider.Exists(path);
@@ -28,7 +27,7 @@ namespace UnitTester.IntegrationTesting
         }
 
         [TestMethod]
-        [TestCategory("File Validation")]
+        [TestCategory("File Integration | Validation")]
         public void EmployeeImportFile1_FileExists_FailTest()
         {
             //Arrange
@@ -42,12 +41,11 @@ namespace UnitTester.IntegrationTesting
         }
 
         [TestMethod]
-        [TestCategory("File Validation")]
+        [TestCategory("File Integration | Validation")]
         public void EmployeeImportFile2_FileExists_SuccessTest()
         {
             //Arrange
-            var path = Paths.File2; 
-            var actual = true;
+            var path = Paths.File2;            
             //Act
             _FileValidationProvider = new FileValidationProvider();
             var expected = _FileValidationProvider.Exists(path);
@@ -56,12 +54,11 @@ namespace UnitTester.IntegrationTesting
         }
 
         [TestMethod]
-        [TestCategory("File Validation")]
+        [TestCategory("File Integration | Validation")]
         public void EmployeeImportFile2_FileExists_FailTest()
         {
             //Arrange
-            var path = Paths.Incorrect;
-            var actual = true;
+            var path = Paths.Incorrect; 
             //Act
             _FileValidationProvider = new FileValidationProvider();
             var expected = _FileValidationProvider.Exists(path);
@@ -70,12 +67,11 @@ namespace UnitTester.IntegrationTesting
         }
 
         [TestMethod]
-        [TestCategory("File Validation")]
+        [TestCategory("File Integration | Validation")]
         public void EmployeeImportFile3_FileExists_SuccessTest()
         {
             //Arrange
-            var path = Paths.File3;
-            var actual = true;
+            var path = Paths.File3;            
             //Act
             _FileValidationProvider = new FileValidationProvider();
             var expected = _FileValidationProvider.Exists(path);
@@ -84,12 +80,11 @@ namespace UnitTester.IntegrationTesting
         }
 
         [TestMethod]
-        [TestCategory("File Validation")]
+        [TestCategory("File Integration | Validation")]
         public void EmployeeImportFile3_FileExists_FailTest()
         {
             //Arrange
-            var path = Paths.Incorrect;
-            var actual = true;
+            var path = Paths.Incorrect;            
             //Act
             _FileValidationProvider = new FileValidationProvider();
             var expected = _FileValidationProvider.Exists(path);
@@ -98,12 +93,12 @@ namespace UnitTester.IntegrationTesting
         }
 
         [TestMethod]
-        [TestCategory("File Validation")]
+        [TestCategory("File Integration | Validation")]
         public void EmployeeImportFile1_MulltipleFileExists_SuccessTest()
         {
             //Arrange
             var file = "first file.csv";
-            var directory = Paths.Directory
+            var directory = Paths.Directory;
             var actual = 1;
             //Act
             _FileValidationProvider = new FileValidationProvider();
@@ -144,7 +139,7 @@ namespace UnitTester.IntegrationTesting
         [TestCategory("Singleton Code Burndown")]
         public void EmployeeWholeIntegration_ReadingValidationProcessingWriting_ReturnTrueSuccess()
         {
-            IEmployeeHourCalculator employeeHourCalculator = new EmployeeHourCalculator(new FileValidation(), new CSVHelper(), new CSVHelper(), new EmployeeDataProcessor());
+            IEmployeeHourCalculator employeeHourCalculator = new EmployeeHourCalculator(new FileValidationProvider(), new CSVHelper(), new CSVHelper(), new EmployeeDataProcessor());
             var expected = employeeHourCalculator.CalculateEmployeeHoursWorked();
             Assert.IsTrue(expected);
         }
@@ -162,15 +157,14 @@ namespace UnitTester.IntegrationTesting
     }
     public class Paths
     {
-        public const string File1 = @"C:\Users\ghazanfer.khan\Desktop\first file.csv";
+        public const string File1 = @"D:\Hackathon\instructions_to_start_the_hackathon_coding\first file.csv";
 
-        public const string File2 = @"C:\Users\ghazanfer.khan\Desktop\second file.csv";
+        public const string File2 = @"D:\Hackathon\instructions_to_start_the_hackathon_coding\second file.csv";
 
-        public const string File3 = @"C:\Users\ghazanfer.khan\Desktop\third file.csv";
+        public const string File3 = @"D:\Hackathon\instructions_to_start_the_hackathon_coding\third file.csv";
 
         public const string Incorrect = @"C:\Users\ghazanfer.khan\Desktop\file.csv";
 
-        public const string Directory = @"C:\Users\ghazanfer.khan\Desktop";
-        public const string Output = "";
+        public const string Directory = @"C:\Users\ghazanfer.khan\Desktop";       
     }
 }

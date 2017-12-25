@@ -19,9 +19,9 @@ namespace BLL
         private IReadCSV _readCSV;
         private IWriteCSV _writeCSV;
         private IEmployeeDataProcessor _employeeDataProcessor;
-        private IFileValidation _fileValidation;
+        private IFileValidationProvider _fileValidation;
 
-        public EmployeeHourCalculator(IFileValidation fileValidation, IReadCSV readCSV, IWriteCSV writeCSV, IEmployeeDataProcessor employeeDataProcessor)
+        public EmployeeHourCalculator(IFileValidationProvider fileValidation, IReadCSV readCSV, IWriteCSV writeCSV, IEmployeeDataProcessor employeeDataProcessor)
         {
             _fileValidation = fileValidation;
             _readCSV = readCSV;

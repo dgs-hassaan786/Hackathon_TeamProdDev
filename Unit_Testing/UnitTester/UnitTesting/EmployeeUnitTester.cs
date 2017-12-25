@@ -16,6 +16,7 @@ namespace UnitTester.UnitTesting
     {
 
         [TestMethod]
+        [TestCategory("Unit Testing")]
         public void EmployeeDataProcessing_GenerateListOfProcessedData_ReturnList()
         {
 
@@ -29,6 +30,7 @@ namespace UnitTester.UnitTesting
 
 
         [TestMethod]
+        [TestCategory("Unit Testing")]
         public void EmployeeDataProcessing_MergeDataSources_ReturnDataTable()
         {
 
@@ -43,6 +45,7 @@ namespace UnitTester.UnitTesting
         }
 
         [TestMethod]
+        [TestCategory("Unit Testing")]
         public void EmployeeExport_CSVExporting_SuccessTest()
         {
             var expected = true;
