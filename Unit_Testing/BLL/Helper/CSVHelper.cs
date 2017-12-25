@@ -15,7 +15,17 @@ namespace BLL.Helper
     {
         bool Write(string path, IEnumerable<Employee> employee);
     }
-
+    public interface IFileValidation
+    {
+        bool Exists(string path);
+    }
+    public class FileValidation : IFileValidation
+    {
+        public bool Exists(string path)
+        {
+            return File.Exists(path);
+        }
+    }
     public class CSVHelper : IWriteCSV
     {
 
