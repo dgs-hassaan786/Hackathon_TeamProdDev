@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,12 @@ namespace BLL
     {
         bool StringValidation(string input);
         bool ArrayPreValidation(int[] a);
-    }
 
+    }
+    public interface IFileValidation
+    {
+        bool Exists(string path);
+    }
     public class Validation : IValidation
     {
         public bool StringValidation(string input)
@@ -32,7 +37,7 @@ namespace BLL
         public bool ArrayPreValidation(int[] a)
         {
             if (a == null)
-                throw new ArgumentNullException();               
+                throw new ArgumentNullException();
 
             return true;
         }
@@ -41,7 +46,7 @@ namespace BLL
     public class Core : ICore
     {
         public string ReverseString(string input)
-        {            
+        {
             StringBuilder builder = new StringBuilder();
             for (int i = input.Length - 1; i >= 0; i--)
             {
@@ -53,7 +58,7 @@ namespace BLL
         }
 
         public int[] SumElementWithinIndex(int[] a)
-        {            
+        {
             try
             {
                 var b = new int[a.Length];
@@ -70,6 +75,13 @@ namespace BLL
                 throw new IndexOutOfRangeException("Array does not contain that index", ex);
             }
         }
-  
+
+    }
+    public class FileValidation : IFileValidation
+    {
+        public bool Exists(string path)
+        {
+            return File.Exists(path);
+        }
     }
 }
