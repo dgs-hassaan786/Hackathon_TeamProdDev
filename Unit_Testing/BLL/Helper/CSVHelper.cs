@@ -15,8 +15,18 @@ namespace BLL.Helper
     {
         bool Write(string path, IEnumerable<Employee> employee);
     }
-
-    public interface IReadCSV
+    public interface IFileValidation
+    {
+        bool Exists(string path);
+    }
+    public class FileValidation : IFileValidation
+    {
+        public bool Exists(string path)
+        {
+            return File.Exists(path);
+        }
+    }
+    public class CSVHelper : IWriteCSV
     {
         bool CheckHeader(string path, string[] headers);
         DataTable ExtractCSVData(string path, string[] headersToProcessed);
