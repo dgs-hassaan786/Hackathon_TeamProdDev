@@ -9,10 +9,11 @@ namespace UnitTester.IntegrationTesting
     {
 
         IValidation _Validation;
-
+        IFileValidation _FileValidation;
         public IntegrationTester()
         {
             _Validation = new Validation();
+            _FileValidation = new FileValidation();
         }
 
         [TestMethod]
@@ -47,7 +48,18 @@ namespace UnitTester.IntegrationTesting
         {
             _Validation.ArrayPreValidation(null);
         }
+        [TestMethod]
+        public void File_Exist_ReturnFile()
+        {
+            //Arrange
+            string path = @"D:\BrainTraces\logs1\Log(20161206).txt";
+            bool actual = true;
 
+            //Act
+            var expected = _FileValidation.Exists(path);
+
+            Assert.AreEqual(actual, expected);
+        }
         
 
     }
