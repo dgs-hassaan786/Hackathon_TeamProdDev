@@ -16,7 +16,13 @@ namespace BLL.Helper
         bool Write(string path, IEnumerable<Employee> employee);
     }
 
-    public class CSVHelper : IWriteCSV
+    public interface IReadCSV
+    {
+        bool CheckHeader(string path, string[] headers);
+        DataTable ExtractCSVData(string path, string[] headersToProcessed);
+    }
+
+    public class CSVHelper : IWriteCSV, IReadCSV
     {
 
         public bool Write(string path, IEnumerable<Employee> employees)
@@ -84,7 +90,7 @@ namespace BLL.Helper
         }
 
 
-        public static DataTable ParseCSVFile(string path)
+        public  DataTable ExtractCSVData(string path, string[] headersToProcessed)
         {
             DataTable csvData = new DataTable();
             try
@@ -94,26 +100,38 @@ namespace BLL.Helper
                     csvReader.SetDelimiters(new string[] { "," });
                     csvReader.HasFieldsEnclosedInQuotes = true;
                     
-                    string[] colFields = csvReader.ReadFields();
+                    string[] colFields = csvReader.ReadFields();                                     
+                    var indexesToProceed = new int[headersToProcessed.Length];
+                    var indexCounter = 0;
                     
-                    foreach (string column in colFields)
-                    {
-                        DataColumn datcolumn = new DataColumn(column);
-                        datcolumn.AllowDBNull = true;
-                        csvData.Columns.Add(datcolumn);
+                    for (int i = 0; i < headersToProcessed.Length; i++)
+                    {                        
+                        for (int j = 0; j < colFields.Length; j++)
+                        {
+                            if (colFields[j] == headersToProcessed[i])
+                            {
+                                DataColumn datcolumn = new DataColumn(colFields[j]);
+                                datcolumn.AllowDBNull = true;
+                                csvData.Columns.Add(datcolumn);
+                                indexesToProceed[indexCounter++] = j;
+                                break;
+                            }
+                        }                 
                     }
-                     
+
+
                     while (!csvReader.EndOfData)
                     {
                         string[] fieldData = csvReader.ReadFields();
-                        
-                        for (int i = 0; i < fieldData.Length; i++)
+                        string[] filtered_data = new string[indexesToProceed.Length];
+
+
+                        for (int i = 0; i < indexesToProceed.Length; i++)
                         {
-                            if (fieldData[i] == "")
-                                fieldData[i] = null;
+                            filtered_data[i] = fieldData[indexesToProceed[i]];
                         }
-                         
-                        csvData.Rows.Add(fieldData);
+                                                                     
+                        csvData.Rows.Add(filtered_data);
                     }
                 }
             }
