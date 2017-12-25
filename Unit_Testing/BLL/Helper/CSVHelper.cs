@@ -15,18 +15,8 @@ namespace BLL.Helper
     {
         bool Write(string path, IEnumerable<Employee> employee);
     }
-    public interface IFileValidation
-    {
-        bool Exists(string path);
-    }
-    public class FileValidation : IFileValidation
-    {
-        public bool Exists(string path)
-        {
-            return File.Exists(path);
-        }
-    }
-    public class CSVHelper : IWriteCSV
+   
+    public interface IReadCSV 
     {
         bool CheckHeader(string path, string[] headers);
         DataTable ExtractCSVData(string path, string[] headersToProcessed);
@@ -68,7 +58,6 @@ namespace BLL.Helper
             return status;
         }
        
-
         public bool CheckHeader(string path,  string[] headers)
         {            
             using (TextFieldParser csvReader = new TextFieldParser(path))
@@ -98,7 +87,6 @@ namespace BLL.Helper
 
             return true;
         }
-
 
         public  DataTable ExtractCSVData(string path, string[] headersToProcessed)
         {
@@ -151,5 +139,5 @@ namespace BLL.Helper
             }
             return csvData;
         }
-    }
+    }    
 }

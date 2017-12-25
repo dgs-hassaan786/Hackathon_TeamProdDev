@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmployeeDataProcessor.cs" />
     <Compile Include="Helper\CSVHelper.cs" />
+    <Compile Include="Helper\FileValidationProvider.cs" />
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

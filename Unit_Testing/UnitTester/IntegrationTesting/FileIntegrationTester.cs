@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnitTester.Extensions;
 
-using BLL.Helper;
 namespace UnitTester.IntegrationTesting
 {
     [TestClass]
@@ -18,6 +17,11 @@ namespace UnitTester.IntegrationTesting
         {
             _FileValidation = new FileValidation();
         }
+
+
+
+        #region File Exist and validation 
+
         [TestMethod]
         [TestCategory("File Validation")]
         public void EmployeeImportFile1_FileExists_SuccessTest()
@@ -30,7 +34,7 @@ namespace UnitTester.IntegrationTesting
             //Assert
             Assert.AreEqual(expected, actual);
         }
-        
+
         [TestMethod]
         [TestCategory("File Validation")]
         public void EmployeeImportFile1_FileExists_FailTest()
@@ -41,7 +45,7 @@ namespace UnitTester.IntegrationTesting
             //Act
             var expected = _FileValidation.Exists(path);
             //Assert
-            Assert.AreEqual(expected, actual,"File not exist");
+            Assert.AreEqual(expected, actual, "File not exist");
         }
 
         [TestMethod]
@@ -70,7 +74,6 @@ namespace UnitTester.IntegrationTesting
             Assert.AreEqual(expected, actual, "File not exist");
         }
 
-
         [TestMethod]
         [TestCategory("File Validation")]
         public void EmployeeImportFile3_FileExists_SuccessTest()
@@ -97,6 +100,11 @@ namespace UnitTester.IntegrationTesting
             Assert.AreEqual(expected, actual, "File not exist");
         }
 
+        #endregion
+
+
+        #region File Header Checking Test cases
+
         [TestMethod]
         public void EmployeeImportFile_HeaderExist_SuccessTest()
         {
@@ -111,8 +119,11 @@ namespace UnitTester.IntegrationTesting
         public void EmployeeImportFile_HeaderExist_Exception()
         {
             IReadCSV readCSV = new CSVHelper();
-            var actual = readCSV.CheckHeader(@"D:\Hackathon\instructions_to_start_the_hackathon_coding\sample_input.csv", IntegrationMockProvider.MockHeaders());            
+            var actual = readCSV.CheckHeader(@"D:\Hackathon\instructions_to_start_the_hackathon_coding\sample_input.csv", IntegrationMockProvider.MockHeaders());
         }
+        #endregion
+
+
 
         [TestMethod]        
         public void EmployeeImportFile_DataFormation_Datatable()

@@ -1,4 +1,5 @@
-﻿using BLL.Helper;
+﻿using BLL;
+using BLL.Helper;
 using BLL.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -12,7 +13,23 @@ namespace UnitTester.UnitTesting
     [TestClass]
     public class EmployeeUnitTester
     {
-        
+
+        [TestMethod]
+        public void EmployeeDataProcessing_GenerateListOfProcessedData_ReturnList()
+        {
+
+            IEmployeeDataProcessor employeeDataProcessor = new EmployeeDataProcessor();
+
+            var actual = EmployeeMock.ResultantProcessedData().ToList().OrderBy(x=>x.EmployeeId).ToList();
+            var expected = employeeDataProcessor.ProcessData(EmployeeMock.GetMockEmployeeUnprocessedData().ToList()).OrderBy(x=>x.EmployeeId).ToList() ;
+
+            CollectionAssert.AreEqual(expected, actual);
+
+
+        }
+
+
+
         [TestMethod]
         public void EmployeeExport_CSVExporting_SuccessTest()
         {
@@ -47,6 +64,36 @@ namespace UnitTester.UnitTesting
             lst.Add(new Employee("555", "Azfar Akram", 166));
             lst.Add(new Employee("666", "Shafqat Mahmood", 79));
 
+            return lst;
+        }
+
+        public static IEnumerable<Employee> GetMockEmployeeUnprocessedData()
+        {
+            var lst = new List<Employee>();
+
+            lst.Add(new Employee("111", "Kent Beck", 170));
+            lst.Add(new Employee("222", "Martin Fowler", 116));
+            lst.Add(new Employee("333", "Jeff Sutherland", 89));
+            lst.Add(new Employee("444", "Ken Schwaber", 219));
+            lst.Add(new Employee("555", "Azfar Akram", 166));
+            lst.Add(new Employee("666", "Shafqat Mahmood", 79));
+            lst.Add(new Employee("444", "Ken Schwaber", 144));
+            lst.Add(new Employee("555", "Azfar Akram", 20));
+            lst.Add(new Employee("666", "Shafqat Mahmood", 212));
+
+            return lst;
+        }
+
+        public static IEnumerable<Employee> ResultantProcessedData()
+        {
+            var lst = new List<Employee>();
+
+            lst.Add(new Employee("111", "Kent Beck", 170));
+            lst.Add(new Employee("222", "Martin Fowler", 116));
+            lst.Add(new Employee("333", "Jeff Sutherland", 89));
+            lst.Add(new Employee("444", "Ken Schwaber", 363));
+            lst.Add(new Employee("555", "Azfar Akram", 186));
+            lst.Add(new Employee("666", "Shafqat Mahmood", 291));
             return lst;
         }
     }
