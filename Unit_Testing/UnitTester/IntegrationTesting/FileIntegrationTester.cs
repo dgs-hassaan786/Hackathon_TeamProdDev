@@ -1,4 +1,5 @@
-﻿using BLL.Helper;
+﻿using BLL;
+using BLL.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -123,14 +124,25 @@ namespace UnitTester.IntegrationTesting
         }
         #endregion
 
-
-
         [TestMethod]        
         public void EmployeeImportFile_DataFormation_Datatable()
         {
             IReadCSV readCSV = new CSVHelper();
             var actual = readCSV.ExtractCSVData(@"D:\Hackathon\instructions_to_start_the_hackathon_coding\third file.csv", IntegrationMockProvider.MockHeaders());
         }
+
+
+        #region Final Integration
+
+        [TestMethod]
+        public void EmployeeWholeIntegration_ReadingValidationProcessingWriting_ReturnTrueSuccess()
+        {
+            IEmployeeHourCalculator employeeHourCalculator = new EmployeeHourCalculator(new FileValidation(), new CSVHelper(), new CSVHelper(), new EmployeeDataProcessor());
+            var expected = employeeHourCalculator.CalculateEmployeeHoursWorked();
+            Assert.IsTrue(expected);
+        }
+
+        #endregion
 
     }
 
