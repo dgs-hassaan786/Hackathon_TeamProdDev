@@ -11,64 +11,45 @@ namespace BLL.Helper
 
     public interface IWriteCSV
     {
-        Task Write(string outputPath, IEnumerable<Employee> employee);
+        bool Write(string path, IEnumerable<Employee> employee);
     }
 
-    class CSVHelper : IWriteCSV
+    public class CSVHelper : IWriteCSV
     {
-        
-        public Task Write(string outputPath, IEnumerable<Employee> employee)
-        {
-            using (var fileStream = File.OpenWrite(outputPath))
-            using (var binaryWriter = new BinaryWriter(fileStream))
-            {
-                var result = false;
-                try
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        var writer = new BinaryWriter(ms);
-                        writer.Write(employee.);
-                        var binaryRecord = ms.ToArray();
 
-                        
-                        result = true;
+        public bool Write(string path, IEnumerable<Employee> employees)
+        {
+            var status = true;
+
+            bool exists = Directory.Exists(path);
+            if (!exists)
+            {
+                Directory.CreateDirectory(path);
+            }
+            if (!path.EndsWith(@"\"))
+                path += @"\";
+
+
+            string filePath = path + "output.csv";
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                using (StreamWriter w = (File.Exists(filePath)) ? File.AppendText(filePath) : File.CreateText(filePath))
+                {
+                    var header = string.Format($"{nameof(Employee.EmployeeId)},{nameof(Employee.EmployeeId)},{nameof(Employee.EmployeeId)}");
+                    w.WriteLine(header);
+                    w.Flush();
+                    foreach (var e in employees)
+                    {
+                        var line = string.Format($"{e.EmployeeId},{e.Name},{e.HoursWorked}");
+                        w.WriteLine(line);
+                        w.Flush();
                     }
                 }
-                catch (Exception e)
-                {
-                    //log exception here
-                    //_Logger.Error(e, $"Exception generated in method: {nameof(AdwordsSnapshotWriter)}.{nameof(Write)}");
-                }
-                //  return result;
-
-                return Task.FromResult(0);
             }
+            
+            return status;
         }
 
-
-        internal bool Write(IEnumerable<Employee> employee)
-        {
-            var result = false;
-            //try
-            //{
-            //    using (var ms = new MemoryStream())
-            //    {
-            //        var writer = new BinaryWriter(ms);
-            //        writer.Write(adwordsPull.Data);
-            //        var binaryRecord = ms.ToArray();
-
-            //        DatabaseManager.AddAdwordsPullData(adwordsPull.TrendDate, adwordsPull.Hour, adwordsPull.Minute, binaryRecord).Forget();
-            //        result = true;
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    //log exception here
-            //    _Logger.Error(e, $"Exception generated in method: {nameof(AdwordsSnapshotWriter)}.{nameof(Write)}");
-            //}
-            return result;
-        }
 
     }
 }
