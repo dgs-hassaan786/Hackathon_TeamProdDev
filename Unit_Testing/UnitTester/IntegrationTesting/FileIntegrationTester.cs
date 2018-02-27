@@ -103,7 +103,7 @@ namespace UnitTester.IntegrationTesting
         {
             //Arrange
             var file = "first file.csv";
-            var directory = Paths.Directory
+            var directory = Paths.Directory;
             var actual = 1;
             //Act
             _FileValidationProvider = new FileValidationProvider();
