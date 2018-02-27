@@ -24,17 +24,13 @@ namespace BLL
             DataTable table = new DataTable("TblEmployee");
             foreach (var dt in dataSources)
             {
-                table.Merge(dt);
-                table.Merge(dt);
-                table.Merge(dt);
+                table.Merge(dt);                
             }
 
             try
             {
                 var dt = table.Rows.Cast<DataRow>().Where(row => !row.ItemArray.All(field => field is System.DBNull || string.Compare((field as string).Trim(), string.Empty) == 0)).CopyToDataTable();
-                var UniqueRows = dt.AsEnumerable().Distinct(DataRowComparer.Default);
-                DataTable dt2 = UniqueRows.CopyToDataTable();
-                return dt2;
+                return dt;
 
             }
             catch (Exception)

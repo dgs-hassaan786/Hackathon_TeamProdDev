@@ -4,6 +4,7 @@ using BLL.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace UnitTester.UnitTesting
     {
 
         [TestMethod]
+        [TestCategory("Unit Testing")]
         public void EmployeeDataProcessing_GenerateListOfProcessedData_ReturnList()
         {
 
@@ -27,8 +29,23 @@ namespace UnitTester.UnitTesting
         }
 
 
+        [TestMethod]
+        [TestCategory("Unit Testing")]
+        public void EmployeeDataProcessing_MergeDataSources_ReturnDataTable()
+        {
+
+            IEmployeeDataProcessor employeeDataProcessor = new EmployeeDataProcessor();
+
+            var expected = employeeDataProcessor.MergeDataSource(EmployeeMock.GetDataTable());
+            var resultant = EmployeeMock.Resultant();
+
+            Assert.AreEqual(expected.Rows.Count, resultant.Rows.Count);
+
+
+        }
 
         [TestMethod]
+        [TestCategory("Unit Testing")]
         public void EmployeeExport_CSVExporting_SuccessTest()
         {
             var expected = true;
@@ -95,6 +112,58 @@ namespace UnitTester.UnitTesting
             lst.Add(new Employee("666", "Shafqat Mahmood", 291));
             return lst;
         }
+
+        public static List<DataTable> GetDataTable()
+        {
+            var lst = new List<DataTable>();
+
+            DataTable table1 = new DataTable();
+            table1.Columns.Add("EmployeeID", typeof(int));
+            table1.Columns.Add("Name", typeof(string));
+            table1.Columns.Add("HoursWorked", typeof(string));
+
+
+            table1.Rows.Add(25, "Hassaan", 10);
+            table1.Rows.Add(50, "Ghazanfar", 20);
+            table1.Rows.Add(10, "Haroon", 30);
+           
+
+
+            DataTable table2 = new DataTable();
+            table2.Columns.Add("EmployeeID", typeof(int));
+            table2.Columns.Add("Name", typeof(string));
+            table2.Columns.Add("HoursWorked", typeof(string));
+
+
+            table2.Rows.Add(25, "Hassaan", 10);
+            table2.Rows.Add(50, "Ghazanfar", 20);
+            table2.Rows.Add(10, "Haroon", 30);
+
+            lst.Add(table1);
+            lst.Add(table2);
+
+            return lst;
+
+        }
+
+        public static DataTable Resultant() {
+
+            DataTable table1 = new DataTable();
+            table1.Columns.Add("EmployeeID", typeof(int));
+            table1.Columns.Add("Name", typeof(string));
+            table1.Columns.Add("HoursWorked", typeof(string));
+            table1.Rows.Add(25, "Hassaan", 10);
+            table1.Rows.Add(50, "Ghazanfar", 20);
+            table1.Rows.Add(10, "Haroon", 30);
+            table1.Rows.Add(25, "Hassaan", 10);
+            table1.Rows.Add(50, "Ghazanfar", 20);
+            table1.Rows.Add(10, "Haroon", 30);
+
+            return table1;
+        }
+
+
+
     }
     public class EmployeeComparer : Comparer<Employee>
     {

@@ -12,8 +12,7 @@ namespace UnitTester.Extensions
     public sealed class CustomExpectedException : ExpectedExceptionBaseAttribute
     {
         private Type _expectedExceptionType;
-        private string _expectedExceptionMessage;
-        private Logger _logger;
+        private string _expectedExceptionMessage;     
 
         public CustomExpectedException(Type expectedExceptionType)
         {
